@@ -190,27 +190,37 @@ function App() {
 
   const deleteVocabulary = async () => {
     try {
-      // Lấy danh sách từ vựng hiện tại
+      // Lấy danh sách từ vựng hiện tại để kiểm tra
       const response = await axios.get(`${API_BASE_URL}/vocabulary`);
       const words = response.data;
       
-      // Kiểm tra xem từ "hello" có tồn tại không
-      const helloExists = words.find(w => w.english.toLowerCase() === 'hello');
-      
-      // Xóa tất cả từ vựng
-      for (const word of words) {
-        await axios.delete(`${API_BASE_URL}/vocabulary/${word.id}`);
+      if (words.length === 0) {
+        showToast('Không có từ vựng nào để xóa!', 'warning');
+        return;
       }
       
+      // Sử dụng bulk delete endpoint để xóa tất cả từ vựng
+      await axios.delete(`${API_BASE_URL}/vocabulary`);
+      
+      // Đợi một chút để đảm bảo xóa hoàn tất
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       // Tạo lại từ "hello" với thông tin đầy đủ
-      await axios.post(`${API_BASE_URL}/vocabulary`, {
-        english: 'hello',
-        vietnamese: 'xin chào',
-        type: 'greeting',
-        pronunciation: '/həˈloʊ/',
-        image_url: '',
-        difficulty: 1
-      });
+      try {
+        await axios.post(`${API_BASE_URL}/vocabulary`, {
+          english: 'hello',
+          vietnamese: 'xin chào',
+          type: 'greeting',
+          pronunciation: '/həˈloʊ/',
+          image_url: '',
+          difficulty: 1
+        });
+      } catch (createError) {
+        console.error('Failed to create hello word:', createError);
+        showToast('Đã xóa từ vựng nhưng không thể tạo từ "hello". Vui lòng thử lại.', 'warning');
+        await loadAllWords();
+        return;
+      }
       
       // Tải lại danh sách từ vựng
       await loadAllWords();
