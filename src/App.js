@@ -637,18 +637,26 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>🎓 Học Tiếng Anh Thông Minh</h1>
-        <p>Luyện tập từ vựng với ☁️ nha</p>
+        <h1 style={{ fontSize: isMobile ? '1.4rem' : '2.5rem', marginBottom: isMobile ? '4px' : '10px' }}>
+          🎓 Học Tiếng Anh Thông Minh
+        </h1>
+        <p style={{ fontSize: isMobile ? '0.85rem' : '1.1rem' }}>
+          Luyện tập từ vựng với ☁️ nha
+        </p>
       </header>
 
-      <div className="vocabulary-card" style={{ position: 'relative' }}>
+      <div className="vocabulary-card" style={{ 
+        position: 'relative',
+        padding: isMobile ? '16px 12px' : '30px',
+        marginBottom: isMobile ? '10px' : '20px'
+      }}>
         {/* Header with Language Toggle */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center', 
-          marginBottom: '25px',
-          paddingBottom: '20px',
+          marginBottom: isMobile ? '15px' : '25px',
+          paddingBottom: isMobile ? '12px' : '20px',
           borderBottom: '2px solid rgba(102, 126, 234, 0.1)'
         }}>
           <div style={{ flex: 1 }}>
@@ -831,10 +839,10 @@ function App() {
 
         {/* Input Section */}
         <div style={{ 
-          marginBottom: '30px',
-          padding: isMobile ? '15px' : '25px',
+          marginBottom: isMobile ? '20px' : '30px',
+          padding: isMobile ? '12px' : '25px',
           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%)',
-          borderRadius: '20px',
+          borderRadius: isMobile ? '12px' : '20px',
           border: '1px solid rgba(102, 126, 234, 0.1)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)'
@@ -1130,21 +1138,21 @@ function App() {
 
         {/* Bottom Section - All controls */}
         <div style={{
-          marginTop: '15px',
-          paddingTop: '15px',
+          marginTop: isMobile ? '12px' : '15px',
+          paddingTop: isMobile ? '12px' : '15px',
           borderTop: '1px solid #e2e8f0'
         }}>
           {/* Navigation Info - Center */}
           <div style={{ 
             textAlign: 'center', 
             color: '#6c757d', 
-            fontSize: '0.9rem',
+            fontSize: isMobile ? '0.8rem' : '0.9rem',
             fontWeight: '500',
-            padding: '8px 16px',
+            padding: isMobile ? '6px 12px' : '8px 16px',
             background: 'rgba(108, 117, 125, 0.1)',
-            borderRadius: '20px',
+            borderRadius: isMobile ? '15px' : '20px',
             border: '1px solid rgba(108, 117, 125, 0.2)',
-            marginBottom: '15px',
+            marginBottom: isMobile ? '12px' : '15px',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)'
           }}>
@@ -1156,8 +1164,8 @@ function App() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '15px',
-            marginBottom: '15px'
+            gap: isMobile ? '12px' : '15px',
+            marginBottom: isMobile ? '12px' : '15px'
           }}>
             {/* Delete Vocabulary Icon */}
             <div 
@@ -1217,7 +1225,7 @@ function App() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '15px'
+            gap: isMobile ? '12px' : '15px'
           }}>
             {/* Settings Button - Left */}
             <button
@@ -1639,18 +1647,23 @@ flexible : linh hoạt"
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 1000
+          zIndex: 1000,
+          padding: isMobile ? '10px' : '20px'
         }}>
           <div style={{
             background: '#2d3748',
-            borderRadius: '15px',
-            padding: '30px',
-            width: '90%',
-            maxWidth: '500px',
-            color: 'white'
+            borderRadius: isMobile ? '12px' : '15px',
+            padding: isMobile ? '20px 15px' : '30px',
+            width: isMobile ? '95%' : '90%',
+            maxWidth: isMobile ? 'none' : '500px',
+            maxHeight: isMobile ? '90vh' : '80vh',
+            color: 'white',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            position: 'relative'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ margin: 0, fontSize: '1.5rem' }}>⚙️ Cài đặt</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: isMobile ? '15px' : '20px' }}>
+              <h2 style={{ margin: 0, fontSize: isMobile ? '1.3rem' : '1.5rem' }}>⚙️ Cài đặt</h2>
               <button 
                 onClick={() => setShowSettings(false)}
                 style={{
@@ -1658,80 +1671,89 @@ flexible : linh hoạt"
                   border: 'none',
                   color: 'white',
                   cursor: 'pointer',
-                  fontSize: '1.5rem',
-                  padding: '5px'
+                  fontSize: isMobile ? '1.3rem' : '1.5rem',
+                  padding: '5px',
+                  borderRadius: '50%',
+                  width: isMobile ? '36px' : '40px',
+                  height: isMobile ? '36px' : '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
+                onMouseLeave={(e) => e.target.style.background = 'none'}
               >
-                <X size={24} />
+                <X size={isMobile ? 20 : 24} />
               </button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '15px' : '20px' }}>
               {/* Language Mode */}
               <div>
-                <label style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '10px', display: 'block' }}>
+                <label style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: '600', marginBottom: isMobile ? '8px' : '10px', display: 'block' }}>
                   Chế độ học
                 </label>
-                <div style={{ display: 'flex', gap: '15px' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '10px' : '15px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: isMobile ? '8px 0' : '0' }}>
                     <input
                       type="radio"
                       name="languageMode"
                       value="vietnamese"
                       checked={languageMode === 'vietnamese'}
                       onChange={(e) => setLanguageMode(e.target.value)}
-                      style={{ accentColor: '#4299e1' }}
+                      style={{ accentColor: '#4299e1', transform: isMobile ? 'scale(1.2)' : 'scale(1)' }}
                     />
-                    Tiếng Việt → Tiếng Anh
+                    <span style={{ fontSize: isMobile ? '0.95rem' : '1rem' }}>Tiếng Việt → Tiếng Anh</span>
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: isMobile ? '8px 0' : '0' }}>
                     <input
                       type="radio"
                       name="languageMode"
                       value="english"
                       checked={languageMode === 'english'}
                       onChange={(e) => setLanguageMode(e.target.value)}
-                      style={{ accentColor: '#4299e1' }}
+                      style={{ accentColor: '#4299e1', transform: isMobile ? 'scale(1.2)' : 'scale(1)' }}
                     />
-                    Tiếng Anh → Tiếng Việt
+                    <span style={{ fontSize: isMobile ? '0.95rem' : '1rem' }}>Tiếng Anh → Tiếng Việt</span>
                   </label>
                 </div>
               </div>
 
               {/* Word Filter */}
               <div>
-                <label style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '10px', display: 'block' }}>
+                <label style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: '600', marginBottom: isMobile ? '8px' : '10px', display: 'block' }}>
                   ⭐ Bộ lọc từ vựng
                 </label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '8px' : '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: isMobile ? '6px 0' : '0' }}>
                     <input
                       type="radio"
                       name="wordFilter"
                       value="all"
                       checked={wordFilter === 'all'}
                       onChange={(e) => setWordFilter(e.target.value)}
-                      style={{ accentColor: '#4299e1' }}
+                      style={{ accentColor: '#4299e1', transform: isMobile ? 'scale(1.2)' : 'scale(1)' }}
                     />
-                    Tất cả từ
+                    <span style={{ fontSize: isMobile ? '0.95rem' : '1rem' }}>Tất cả từ</span>
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: isMobile ? '6px 0' : '0' }}>
                     <input
                       type="radio"
                       name="wordFilter"
                       value="favorites"
                       checked={wordFilter === 'favorites'}
                       onChange={(e) => setWordFilter(e.target.value)}
-                      style={{ accentColor: '#4299e1' }}
+                      style={{ accentColor: '#4299e1', transform: isMobile ? 'scale(1.2)' : 'scale(1)' }}
                     />
-                    Chỉ từ yêu thích
+                    <span style={{ fontSize: isMobile ? '0.95rem' : '1rem' }}>Chỉ từ yêu thích</span>
                   </label>
                 </div>
               </div>
 
               {/* Difficulty Level */}
               <div>
-                <label style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '10px', display: 'block' }}>
+                <label style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: '600', marginBottom: isMobile ? '8px' : '10px', display: 'block' }}>
                   Mức độ khó
                 </label>
                 <select
@@ -1740,11 +1762,12 @@ flexible : linh hoạt"
                   style={{
                     background: '#1a202c',
                     border: '1px solid #4a5568',
-                    borderRadius: '8px',
-                    padding: '10px',
+                    borderRadius: isMobile ? '6px' : '8px',
+                    padding: isMobile ? '12px' : '10px',
                     color: 'white',
-                    fontSize: '1rem',
-                    width: '100%'
+                    fontSize: isMobile ? '0.95rem' : '1rem',
+                    width: '100%',
+                    minHeight: isMobile ? '48px' : 'auto'
                   }}
                 >
                   <option value={1}>Dễ (1)</option>
@@ -1755,104 +1778,104 @@ flexible : linh hoạt"
 
               {/* Auto Advance */}
               <div>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '10px', cursor: 'pointer', padding: isMobile ? '8px 0' : '0' }}>
                   <input
                     type="checkbox"
                     checked={autoAdvance}
                     onChange={(e) => setAutoAdvance(e.target.checked)}
-                    style={{ accentColor: '#4299e1', transform: 'scale(1.2)' }}
+                    style={{ accentColor: '#4299e1', transform: isMobile ? 'scale(1.4)' : 'scale(1.2)' }}
                   />
-                  <span style={{ fontSize: '1.1rem', fontWeight: '600' }}>
+                  <span style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: '600' }}>
                     Tự động chuyển từ tiếp theo
                   </span>
                 </label>
-                <p style={{ margin: '5px 0 0 0', color: '#a0aec0', fontSize: '0.9rem' }}>
+                <p style={{ margin: isMobile ? '8px 0 0 0' : '5px 0 0 0', color: '#a0aec0', fontSize: isMobile ? '0.85rem' : '0.9rem', paddingLeft: isMobile ? '32px' : '0' }}>
                   Tự động chuyển sang từ tiếp theo sau khi trả lời đúng
                 </p>
               </div>
 
               {/* Sound */}
               <div>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '10px', cursor: 'pointer', padding: isMobile ? '8px 0' : '0' }}>
                   <input
                     type="checkbox"
                     checked={soundEnabled}
                     onChange={(e) => setSoundEnabled(e.target.checked)}
-                    style={{ accentColor: '#4299e1', transform: 'scale(1.2)' }}
+                    style={{ accentColor: '#4299e1', transform: isMobile ? 'scale(1.4)' : 'scale(1.2)' }}
                   />
-                  <span style={{ fontSize: '1.1rem', fontWeight: '600' }}>
+                  <span style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: '600' }}>
                     Bật âm thanh
                   </span>
                 </label>
-                <p style={{ margin: '5px 0 0 0', color: '#a0aec0', fontSize: '0.9rem' }}>
+                <p style={{ margin: isMobile ? '8px 0 0 0' : '5px 0 0 0', color: '#a0aec0', fontSize: isMobile ? '0.85rem' : '0.9rem', paddingLeft: isMobile ? '32px' : '0' }}>
                   Phát âm thanh khi trả lời đúng/sai
                 </p>
               </div>
 
               {/* Statistics */}
               <div>
-                <label style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '15px', display: 'block' }}>
+                <label style={{ fontSize: isMobile ? '1rem' : '1.1rem', fontWeight: '600', marginBottom: isMobile ? '12px' : '15px', display: 'block' }}>
                   📊 Thống kê học tập
                 </label>
                 <div style={{ 
                   display: 'grid', 
-                  gridTemplateColumns: 'repeat(4, 1fr)', 
-                  gap: '15px',
+                  gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', 
+                  gap: isMobile ? '12px' : '15px',
                   background: '#1a202c',
-                  padding: '20px',
-                  borderRadius: '12px',
+                  padding: isMobile ? '16px' : '20px',
+                  borderRadius: isMobile ? '10px' : '12px',
                   border: '1px solid #4a5568'
                 }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ 
-                      fontSize: '1.8rem', 
+                      fontSize: isMobile ? '1.5rem' : '1.8rem', 
                       fontWeight: 'bold', 
                       color: '#4caf50',
-                      marginBottom: '5px'
+                      marginBottom: isMobile ? '4px' : '5px'
                     }}>
                       {stats.correct}
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#a0aec0' }}>Đúng</div>
+                    <div style={{ fontSize: isMobile ? '0.8rem' : '0.9rem', color: '#a0aec0' }}>Đúng</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ 
-                      fontSize: '1.8rem', 
+                      fontSize: isMobile ? '1.5rem' : '1.8rem', 
                       fontWeight: 'bold', 
                       color: '#ff9800',
-                      marginBottom: '5px'
+                      marginBottom: isMobile ? '4px' : '5px'
                     }}>
                       {stats.nearlyCorrect}
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#a0aec0' }}>Gần đúng</div>
+                    <div style={{ fontSize: isMobile ? '0.8rem' : '0.9rem', color: '#a0aec0' }}>Gần đúng</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ 
-                      fontSize: '1.8rem', 
+                      fontSize: isMobile ? '1.5rem' : '1.8rem', 
                       fontWeight: 'bold', 
                       color: '#f44336',
-                      marginBottom: '5px'
+                      marginBottom: isMobile ? '4px' : '5px'
                     }}>
                       {stats.incorrect}
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#a0aec0' }}>Sai</div>
+                    <div style={{ fontSize: isMobile ? '0.8rem' : '0.9rem', color: '#a0aec0' }}>Sai</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ 
-                      fontSize: '1.8rem', 
+                      fontSize: isMobile ? '1.5rem' : '1.8rem', 
                       fontWeight: 'bold', 
                       color: '#4299e1',
-                      marginBottom: '5px'
+                      marginBottom: isMobile ? '4px' : '5px'
                     }}>
                       {stats.total}
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#a0aec0' }}>Tổng</div>
+                    <div style={{ fontSize: isMobile ? '0.8rem' : '0.9rem', color: '#a0aec0' }}>Tổng</div>
                   </div>
                 </div>
                 <div style={{ 
                   display: 'flex', 
                   justifyContent: 'center', 
-                  marginTop: '15px',
-                  gap: '10px'
+                  marginTop: isMobile ? '12px' : '15px',
+                  gap: isMobile ? '8px' : '10px'
                 }}>
                   <button 
                     onClick={resetStats}
@@ -1860,11 +1883,12 @@ flexible : linh hoạt"
                       background: '#f44336',
                       color: 'white',
                       border: 'none',
-                      borderRadius: '8px',
-                      padding: '8px 16px',
+                      borderRadius: isMobile ? '6px' : '8px',
+                      padding: isMobile ? '10px 16px' : '8px 16px',
                       cursor: 'pointer',
-                      fontSize: '0.9rem',
-                      transition: 'all 0.3s ease'
+                      fontSize: isMobile ? '0.9rem' : '0.9rem',
+                      transition: 'all 0.3s ease',
+                      minHeight: isMobile ? '44px' : 'auto'
                     }}
                     onMouseEnter={(e) => e.target.style.background = '#d32f2f'}
                     onMouseLeave={(e) => e.target.style.background = '#f44336'}
@@ -1875,18 +1899,20 @@ flexible : linh hoạt"
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '30px' }}>
+            <div style={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-end', marginTop: isMobile ? '20px' : '30px' }}>
               <button 
                 onClick={() => setShowSettings(false)}
                 style={{
                   background: '#4299e1',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '8px',
-                  padding: '12px 24px',
+                  borderRadius: isMobile ? '6px' : '8px',
+                  padding: isMobile ? '14px 24px' : '12px 24px',
                   cursor: 'pointer',
-                  fontSize: '1rem',
-                  transition: 'all 0.3s ease'
+                  fontSize: isMobile ? '1rem' : '1rem',
+                  transition: 'all 0.3s ease',
+                  minHeight: isMobile ? '48px' : 'auto',
+                  width: isMobile ? '100%' : 'auto'
                 }}
                 onMouseEnter={(e) => e.target.style.background = '#3182ce'}
                 onMouseLeave={(e) => e.target.style.background = '#4299e1'}
