@@ -37,8 +37,25 @@ const CompactIcons = {
   )
 };
 
-// API base URL
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://tienganh-be.vercel.app/api';
+// API base URL with fallback
+const getApiBaseUrl = () => {
+  // Try environment variable first
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  
+  // Fallback URLs for different environments
+  const fallbackUrls = [
+    'https://tienganh-be.vercel.app/api',
+    'https://tienganh-backend.vercel.app/api',
+    'http://localhost:5000/api'
+  ];
+  
+  // For now, use the first fallback URL
+  return fallbackUrls[0];
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 function App() {
   const [currentWord, setCurrentWord] = useState(null);
@@ -139,8 +156,16 @@ function App() {
       setAllWords(response.data);
       setWordIndex(0);
     } catch (err) {
-      setError('Không thể tải từ vựng. Vui lòng thử lại.');
       console.error('Error loading words:', err);
+      if (err.code === 'NETWORK_ERROR' || err.message.includes('Network Error')) {
+        setError('Lỗi kết nối mạng. Vui lòng kiểm tra kết nối internet.');
+      } else if (err.response?.status === 404) {
+        setError('Không tìm thấy API endpoint. Vui lòng liên hệ quản trị viên.');
+      } else if (err.response?.status >= 500) {
+        setError('Lỗi server. Vui lòng thử lại sau.');
+      } else {
+        setError('Không thể tải từ vựng. Vui lòng thử lại.');
+      }
     } finally {
       setLoading(false);
     }
@@ -190,6 +215,15 @@ function App() {
 
   const deleteVocabulary = async () => {
     try {
+      // Kiểm tra kết nối API trước
+      try {
+        await axios.get(`${API_BASE_URL}/health`);
+      } catch (healthError) {
+        console.error('API health check failed:', healthError);
+        showToast('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.', 'error');
+        return;
+      }
+
       // Lấy danh sách từ vựng hiện tại để kiểm tra
       const response = await axios.get(`${API_BASE_URL}/vocabulary`);
       const words = response.data;
@@ -199,11 +233,30 @@ function App() {
         return;
       }
       
-      // Sử dụng bulk delete endpoint để xóa tất cả từ vựng
-      await axios.delete(`${API_BASE_URL}/vocabulary`);
+      // Sử dụng bulk delete endpoint để xóa tất cả từ vựng với retry
+      let deleteSuccess = false;
+      let retryCount = 0;
+      const maxRetries = 3;
+      
+      while (!deleteSuccess && retryCount < maxRetries) {
+        try {
+          await axios.delete(`${API_BASE_URL}/vocabulary`);
+          deleteSuccess = true;
+        } catch (deleteError) {
+          retryCount++;
+          console.error(`Delete attempt ${retryCount} failed:`, deleteError);
+          
+          if (retryCount >= maxRetries) {
+            throw deleteError;
+          }
+          
+          // Wait before retry
+          await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+        }
+      }
       
       // Đợi một chút để đảm bảo xóa hoàn tất
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // Tạo lại từ "hello" với thông tin đầy đủ
       try {
@@ -226,8 +279,18 @@ function App() {
       await loadAllWords();
       showToast('Đã xóa từ vựng thành công! Chỉ còn lại từ "hello: xin chào"', 'success');
     } catch (err) {
-      showToast('Không thể xóa từ vựng. Vui lòng thử lại.', 'error');
       console.error('Error deleting vocabulary:', err);
+      
+      // Xử lý các loại lỗi khác nhau
+      if (err.code === 'NETWORK_ERROR' || err.message.includes('Network Error')) {
+        showToast('Lỗi kết nối mạng. Vui lòng kiểm tra kết nối internet.', 'error');
+      } else if (err.response?.status === 404) {
+        showToast('Không tìm thấy API endpoint. Vui lòng liên hệ quản trị viên.', 'error');
+      } else if (err.response?.status >= 500) {
+        showToast('Lỗi server. Vui lòng thử lại sau.', 'error');
+      } else {
+        showToast('Không thể xóa từ vựng. Vui lòng thử lại.', 'error');
+      }
     }
   };
 
